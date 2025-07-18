@@ -86,12 +86,81 @@ let container = document.querySelector(".container");
 
 let clickCount = 0;
 
+// 현재 적용된 스타일 정보를 저장할 변수들
+let currentStyle = {
+  type: 'default', // 'default', 'angle', 'fixed'
+  angle1: 0,
+  angle2: 0,
+  direction1: '',
+  direction2: '',
+  hasTranslateY: false // translateY(-50%) 포함 여부
+};
+
 function changeBG() {
   ruleBGIndex = Math.floor(Math.random() * ruleBG.length);
   attitudeBGIndex = Math.floor(Math.random() * attitudeBG.length);
 }
 
 container.style.background = "linear-gradient(to bottom," + ruleBG[ruleBGIndex] + " 50%," + attitudeBG[attitudeBGIndex] + " 50%)";
+
+function getAngle(direction) {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const radToDeg = Math.atan2(h, w) * (180 / Math.PI);
+
+  switch (direction) {
+    case '↘': return radToDeg;                     // 좌상 → 우하
+    case '↙': return 180 - radToDeg;               // 우상 → 좌하
+    case '↖': return 180 + radToDeg;               // 우하 → 좌상
+    case '↗': return 360 - radToDeg;               // 좌하 → 우상
+    default: throw new Error('Invalid direction');
+  }
+}
+
+// 현재 스타일을 다시 적용하는 함수
+function reapplyCurrentStyle() {
+  const { type, angle1, angle2, direction1, direction2, hasTranslateY } = currentStyle;
+  
+  if (type === 'angle') {
+    // 동적 각도 스타일 재적용
+    const newAngle1 = getAngle(direction1);
+    const newAngle2 = getAngle(direction2);
+    
+    container.style.background = `linear-gradient(${newAngle1}deg,` + ruleBG[ruleBGIndex] + ` 50%,` + attitudeBG[attitudeBGIndex] + ` 50%)`;
+    rule.querySelector(".title").style.transform = `rotate(${newAngle1}deg)`;
+    rule.querySelector(".content").style.transform = `rotate(${newAngle1}deg)`;
+    attitude.querySelector(".title").style.transform = `rotate(${newAngle2}deg)`;
+    attitude.querySelector(".content").style.transform = `rotate(${newAngle2}deg)`;
+    
+    // 저장된 각도 업데이트
+    currentStyle.angle1 = newAngle1;
+    currentStyle.angle2 = newAngle2;
+    
+  } else if (type === 'fixed') {
+    // 고정 각도 스타일 재적용 (배경과 텍스트 각도 다름)
+    container.style.background = `linear-gradient(${angle1}deg,` + ruleBG[ruleBGIndex] + ` 50%,` + attitudeBG[attitudeBGIndex] + ` 50%)`;
+    
+    const translateYStyle = hasTranslateY ? ' translateY(-50%)' : '';
+    rule.querySelector(".title").style.transform = `rotate(0deg)${translateYStyle}`;
+    rule.querySelector(".content").style.transform = `rotate(0deg)${translateYStyle}`;
+    attitude.querySelector(".title").style.transform = `rotate(0deg)${translateYStyle}`;
+    attitude.querySelector(".content").style.transform = `rotate(0deg)${translateYStyle}`;
+    
+  } else {
+    // 기본 스타일 재적용
+    container.style.background = "linear-gradient(to bottom," + ruleBG[ruleBGIndex] + " 50%," + attitudeBG[attitudeBGIndex] + " 50%)";
+    
+    const translateYStyle = hasTranslateY ? ' translateY(-50%)' : '';
+    rule.querySelector(".title").style.transform = `rotate(0deg)${translateYStyle}`;
+    rule.querySelector(".content").style.transform = `rotate(0deg)${translateYStyle}`;
+    attitude.querySelector(".title").style.transform = `rotate(0deg)${translateYStyle}`;
+    attitude.querySelector(".content").style.transform = `rotate(0deg)${translateYStyle}`;
+  }
+}
+
+// 화면 리사이즈될 때마다 현재 스타일 재적용
+window.addEventListener('resize', reapplyCurrentStyle);
+
 
 function changeContent() {
   changeBG();
@@ -107,56 +176,199 @@ function changeContent() {
         rule.querySelector(".content").classList.replace('content1', 'content2');
         attitude.querySelector(".content").classList.replace('content1', 'content2');
         rule.querySelector(".title").classList.replace('title1', 'title2');
-        attitude.querySelector(".title").classList.replace('title1', 'title2');
-        container.style.background = "linear-gradient(239deg," + ruleBG[ruleBGIndex] + " 50%," + attitudeBG[attitudeBGIndex] + " 50%)";
+      attitude.querySelector(".title").classList.replace('title1', 'title2');
+      
+      // 동적 각도 스타일 적용 및 저장
+      const angle = getAngle('↖');
+      const angle2 = getAngle('↘');
+      container.style.background = `linear-gradient(${angle}deg,` + ruleBG[ruleBGIndex] + ` 50%,` + attitudeBG[attitudeBGIndex] + ` 50%)`;
+      rule.querySelector(".title").style.transform = `rotate(${angle}deg)`;
+      rule.querySelector(".content").style.transform = `rotate(${angle}deg)`;
+      attitude.querySelector(".title").style.transform = `rotate(${angle2}deg)`;
+      attitude.querySelector(".content").style.transform = `rotate(${angle2}deg)`;
+      
+      // 스타일 정보 저장
+      currentStyle = {
+        type: 'angle',
+        angle1: angle,
+        angle2: angle2,
+        direction1: '↖',
+        direction2: '↘',
+        hasTranslateY: false
+      };
+      
     } else if (clickCount == 1) {
         clickCount++;
         rule.querySelector(".content").classList.replace('content2', 'content3');
         attitude.querySelector(".content").classList.replace('content2', 'content3');
         rule.querySelector(".title").classList.replace('title2', 'title3');
         attitude.querySelector(".title").classList.replace('title2', 'title3');
+        
+        // 고정 각도 스타일 적용 및 저장
         container.style.background = "linear-gradient(270deg," + ruleBG[ruleBGIndex] + " 50%," + attitudeBG[attitudeBGIndex] + " 50%)";
+        rule.querySelector(".title").style.transform = `rotate(0deg)`;
+        rule.querySelector(".content").style.transform = `rotate(0deg)`;
+        attitude.querySelector(".title").style.transform = `rotate(0deg)`;
+        attitude.querySelector(".content").style.transform = `rotate(0deg)`;
+        
+        // 스타일 정보 저장
+        currentStyle = {
+          type: 'fixed',
+          angle1: 270,
+          angle2: 270,
+          direction1: '',
+          direction2: '',
+          hasTranslateY: false
+        };
+        
     } else if (clickCount == 2) {
         clickCount++;
         rule.querySelector(".content").classList.replace('content3', 'content4');
         attitude.querySelector(".content").classList.replace('content3', 'content4');
         rule.querySelector(".title").classList.replace('title3', 'title4');
         attitude.querySelector(".title").classList.replace('title3', 'title4');
-        container.style.background = "linear-gradient(301deg," + ruleBG[ruleBGIndex] + " 50%," + attitudeBG[attitudeBGIndex] + " 50%)";
+        
+        // 동적 각도 스타일 적용 및 저장
+        const angle = getAngle('↗');
+        const angle2 = getAngle('↙');
+        container.style.background = `linear-gradient(${angle}deg,` + ruleBG[ruleBGIndex] + ` 50%,` + attitudeBG[attitudeBGIndex] + ` 50%)`;
+        rule.querySelector(".title").style.transform = `rotate(${angle}deg)`;
+        rule.querySelector(".content").style.transform = `rotate(${angle}deg)`;
+        attitude.querySelector(".title").style.transform = `rotate(${angle2}deg)`;
+        attitude.querySelector(".content").style.transform = `rotate(${angle2}deg)`;
+        
+        // 스타일 정보 저장
+        currentStyle = {
+          type: 'angle',
+          angle1: angle,
+          angle2: angle2,
+          direction1: '↗',
+          direction2: '↙',
+          hasTranslateY: false
+        };
+        
     } else if (clickCount == 3) {
         clickCount++;
         rule.querySelector(".content").classList.replace('content4', 'content5');
         attitude.querySelector(".content").classList.replace('content4', 'content5');
         rule.querySelector(".title").classList.replace('title4', 'title5');
         attitude.querySelector(".title").classList.replace('title4', 'title5');
+        
+        // 고정 각도 스타일 적용 및 저장
         container.style.background = "linear-gradient(360deg," + ruleBG[ruleBGIndex] + " 50%," + attitudeBG[attitudeBGIndex] + " 50%)";
+        rule.querySelector(".title").style.transform = `rotate(0deg)`;
+        rule.querySelector(".content").style.transform = `rotate(0deg) translateY(-50%)`;
+        attitude.querySelector(".title").style.transform = `rotate(0deg)`;
+        attitude.querySelector(".content").style.transform = `rotate(0deg) translateY(-50%)`;
+        
+        // 스타일 정보 저장
+        currentStyle = {
+          type: 'fixed',
+          angle1: 360,
+          angle2: 360,
+          direction1: '',
+          direction2: '',
+          hasTranslateY: true
+        };
+        
     } else if (clickCount == 4) {
         clickCount++;
         rule.querySelector(".content").classList.replace('content5', 'content6');
         attitude.querySelector(".content").classList.replace('content5', 'content6');
         rule.querySelector(".title").classList.replace('title5', 'title6');
         attitude.querySelector(".title").classList.replace('title5', 'title6');
-        container.style.background = "linear-gradient(59deg," + ruleBG[ruleBGIndex] + " 50%," + attitudeBG[attitudeBGIndex] + " 50%)";
+        
+        // 동적 각도 스타일 적용 및 저장
+        const angle = getAngle('↘');
+        const angle2 = getAngle('↖');
+        container.style.background = `linear-gradient(${angle}deg,` + ruleBG[ruleBGIndex] + ` 50%,` + attitudeBG[attitudeBGIndex] + ` 50%)`;
+        rule.querySelector(".title").style.transform = `rotate(${angle}deg)`;
+        rule.querySelector(".content").style.transform = `rotate(${angle}deg)`;
+        attitude.querySelector(".title").style.transform = `rotate(${angle2}deg)`;
+        attitude.querySelector(".content").style.transform = `rotate(${angle2}deg)`;
+        
+        // 스타일 정보 저장
+        currentStyle = {
+          type: 'angle',
+          angle1: angle,
+          angle2: angle2,
+          direction1: '↘',
+          direction2: '↖',
+          hasTranslateY: false
+        };
+        
     } else if (clickCount == 5) {
         clickCount++;
         rule.querySelector(".content").classList.replace('content6', 'content7');
         attitude.querySelector(".content").classList.replace('content6', 'content7');
         rule.querySelector(".title").classList.replace('title6', 'title7');
         attitude.querySelector(".title").classList.replace('title6', 'title7');
+        
+        // 고정 각도 스타일 적용 및 저장
         container.style.background = "linear-gradient(90deg," + ruleBG[ruleBGIndex] + " 50%," + attitudeBG[attitudeBGIndex] + " 50%)";
+        rule.querySelector(".title").style.transform = `rotate(0deg)`;
+        rule.querySelector(".content").style.transform = `rotate(0deg)`;
+        attitude.querySelector(".title").style.transform = `rotate(0deg)`;
+        attitude.querySelector(".content").style.transform = `rotate(0deg)`;
+        
+        // 스타일 정보 저장
+        currentStyle = {
+          type: 'fixed',
+          angle1: 90,
+          angle2: 90,
+          direction1: '',
+          direction2: '',
+          hasTranslateY: false
+        };
+        
     } else if (clickCount == 6) {
         clickCount++;
         rule.querySelector(".content").classList.replace('content7', 'content8');
         attitude.querySelector(".content").classList.replace('content7', 'content8');
         rule.querySelector(".title").classList.replace('title7', 'title8');
         attitude.querySelector(".title").classList.replace('title7', 'title8');
-        container.style.background = "linear-gradient(121deg," + ruleBG[ruleBGIndex] + " 50%," + attitudeBG[attitudeBGIndex] + " 50%)";
+        
+        // 동적 각도 스타일 적용 및 저장
+        const angle = getAngle('↙');
+        const angle2 = getAngle('↗');
+        container.style.background = `linear-gradient(${angle}deg,` + ruleBG[ruleBGIndex] + ` 50%,` + attitudeBG[attitudeBGIndex] + ` 50%)`;
+        rule.querySelector(".title").style.transform = `rotate(${angle}deg)`;
+        rule.querySelector(".content").style.transform = `rotate(${angle}deg)`;
+        attitude.querySelector(".title").style.transform = `rotate(${angle2}deg)`;
+        attitude.querySelector(".content").style.transform = `rotate(${angle2}deg)`;
+        
+        // 스타일 정보 저장
+        currentStyle = {
+          type: 'angle',
+          angle1: angle,
+          angle2: angle2,
+          direction1: '↙',
+          direction2: '↗',
+          hasTranslateY: false
+        };
+        
     } else if (clickCount == 7) {
         clickCount = 0;
         rule.querySelector(".content").classList.replace('content8', 'content1');
         attitude.querySelector(".content").classList.replace('content8', 'content1');
         rule.querySelector(".title").classList.replace('title8', 'title1');
         attitude.querySelector(".title").classList.replace('title8', 'title1');
+        
+        // 기본 스타일 적용 및 저장
         container.style.background = "linear-gradient(to bottom," + ruleBG[ruleBGIndex] + " 50%," + attitudeBG[attitudeBGIndex] + " 50%)";
+        rule.querySelector(".title").style.transform = `rotate(0deg)`;
+        rule.querySelector(".content").style.transform = `rotate(0deg) translateY(-50%)`;
+        attitude.querySelector(".title").style.transform = `rotate(0deg)`;
+        attitude.querySelector(".content").style.transform = `rotate(0deg) translateY(-50%)`;
+        
+        // 스타일 정보 저장
+        currentStyle = {
+          type: 'default',
+          angle1: 0,
+          angle2: 0,
+          direction1: '',
+          direction2: '',
+          hasTranslateY: true
+        };
     }
 }

@@ -28,14 +28,14 @@ p {
 
 .rule .title,
 .attitude .title {
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   position: absolute;
   box-sizing: border-box;
 }
 
 .rule .content,
 .attitude .content {
-  font-size: 2.2rem;
+  font-size: 3rem;
   letter-spacing: -0.01em;
   line-height: 1.3;
   word-break: keep-all;
@@ -46,8 +46,8 @@ p {
 .img_rule,
 .img_attitude {
   position: absolute;
-  width: 100%;
-  height: 50%;
+  width: 50%;
+  height: 100%;
 }
 
 .img_rule {
@@ -55,7 +55,7 @@ p {
 }
 
 .img_attitude {
-  top: 50%;
+  left: 50%;
 }
 
 .img_rule img,
@@ -103,14 +103,12 @@ p {
   right: 20px;
   text-align: center;
   padding: 1.2rem;
-  transform: rotate(239deg);
 }
 
 .attitude .title2 {
   bottom: 0;
   text-align: center;
   padding: 1.2rem;
-  transform: rotate(59deg);
   left: 20px;
   bottom: 20px;
 }
@@ -119,18 +117,16 @@ p {
   text-align: center;
   width: 120%;
   padding: 1.2rem 3rem;
-  transform: rotate(239deg);
-  bottom: 55%;
-  right: -20vw;
+  bottom: 52%;
+  right: -15vw;
 }
 
 .attitude .content2 {
   text-align: center;
   width: 100%;
   padding: 1.2rem 3rem;
-  top: 60%;
-  left: -4vw;
-  transform: rotate(59deg);
+  top: 52%;
+  left: -6vw;
 }
 
 /* 3 */
@@ -153,7 +149,7 @@ p {
 .rule .content3 {
   text-align: center;
   width: 50%;
-  padding: 1.2rem 3rem;
+  padding: 1.2rem 5rem;
   top: 15%;
   right: 0;
 }
@@ -161,7 +157,7 @@ p {
 .attitude .content3 {
   text-align: center;
   width: 50%;
-  padding: 1.2rem 3rem;
+  padding: 1.2rem 5rem;
   top: 15%;
   left: 0;
 }
@@ -171,7 +167,6 @@ p {
   bottom: 0;
   text-align: center;
   padding: 1.2rem;
-  transform: rotate(301deg);
   right: 20px;
   bottom: 20px;
 }
@@ -181,25 +176,22 @@ p {
   left: 20px;
   text-align: center;
   padding: 1.2rem;
-  transform: rotate(121deg);
 }
 
 .rule .content4 {
   text-align: center;
   width: 100%;
   padding: 1.2rem 3rem;
-  top: 55%;
-  right: -10vw;
-  transform: rotate(301deg);
+  top: 51%;
+  right: -6vw;
 }
 
 .attitude .content4 {
   text-align: center;
   width: 120%;
   padding: 1.2rem 3rem;
-  transform: rotate(121deg);
-  bottom: 57%;
-  left: -20vw;
+  bottom: 51%;
+  left: -17vw;
 }
 
 /* 5 */
@@ -223,7 +215,6 @@ p {
   width: 100%;
   padding: 1.2rem 3rem;
   top: 75%;
-  transform: translateY(-50%);
 }
 
 .attitude .content5 {
@@ -231,7 +222,6 @@ p {
   width: 100%;
   padding: 1.2rem 3rem;
   top: 25%;
-  transform: translateY(-50%);
 }
 
 /* 6 */
@@ -239,7 +229,6 @@ p {
   bottom: 0;
   text-align: center;
   padding: 1.2rem;
-  transform: rotate(59deg);
   left: 20px;
   bottom: 20px;
 }
@@ -249,25 +238,22 @@ p {
   right: 20px;
   text-align: center;
   padding: 1.2rem;
-  transform: rotate(239deg);
 }
 
 .rule .content6 {
   text-align: center;
   width: 100%;
   padding: 1.2rem 3rem;
-  top: 55%;
-  left: -12vw;
-  transform: rotate(59deg);
+  top: 50%;
+  left: -7vw;
 }
 
 .attitude .content6 {
   text-align: center;
   width: 120%;
   padding: 1.2rem 3rem;
-  transform: rotate(239deg);
-  bottom: 55%;
-  right: -20vw;
+  bottom: 53%;
+  right: -14vw;
 }
 
 /* 7 */
@@ -290,7 +276,7 @@ p {
 .rule .content7 {
   text-align: center;
   width: 50%;
-  padding: 1.2rem 3rem;
+  padding: 1.2rem 5rem;
   top: 15%;
   left: 0;
 }
@@ -298,7 +284,7 @@ p {
 .attitude .content7 {
   text-align: center;
   width: 50%;
-  padding: 1.2rem 3rem;
+  padding: 1.2rem 5rem;
   top: 15%;
   right: 0;
 }
@@ -309,14 +295,12 @@ p {
   left: 20px;
   text-align: center;
   padding: 1.2rem;
-  transform: rotate(121deg);
 }
 
 .attitude .title8 {
   bottom: 0;
   text-align: center;
   padding: 1.2rem;
-  transform: rotate(301deg);
   right: 20px;
   bottom: 20px;
 }
@@ -325,16 +309,97 @@ p {
   text-align: center;
   width: 120%;
   padding: 1.2rem 3rem;
-  transform: rotate(121deg);
-  bottom: 57%;
-  left: -20vw;
+  bottom: 50%;
+  left: -18vw;
 }
 
 .attitude .content8 {
   text-align: center;
   width: 100%;
   padding: 1.2rem 3rem;
-  top: 55%;
-  right: -10vw;
-  transform: rotate(301deg);
+  top: 52%;
+  right: -5vw;
+}
+
+@media (max-width: 1080px) {
+  .img_rule,
+  .img_attitude {
+    width: 100%;
+    height: 50%;
+  }
+
+  .img_rule {
+    top: 0;
+  }
+
+  .img_attitude {
+    top: 50%;
+    left: 0%;
+  }
+
+  .rule .title,
+  .attitude .title {
+    font-size: 1.4rem;
+  }
+
+  .rule .content,
+  .attitude .content {
+    font-size: 2.2rem;
+  }
+
+  .rule .content2 {
+    bottom: 55%;
+    right: -20vw;
+  }
+
+  .attitude .content2 {
+    top: 60%;
+    left: -4vw;
+  }
+
+  .rule .content3 {
+    padding: 1.2rem 3rem;
+  }
+
+  .attitude .content3 {
+    padding: 1.2rem 3rem;
+  }
+
+  .rule .content4 {
+    top: 55%;
+    right: -10vw;
+  }
+
+  .attitude .content4 {
+    bottom: 57%;
+    left: -20vw;
+  }
+
+  .rule .content6 {
+    top: 55%;
+    left: -12vw;
+  }
+
+  .attitude .content6 {
+    bottom: 55%;
+    right: -20vw;
+  }
+
+  .rule .content7 {
+    padding: 1.2rem 3rem;
+  }
+
+  .attitude .content7 {
+    padding: 1.2rem 3rem;
+  }
+
+  .rule .content8 {
+    bottom: 57%;
+    left: -20vw;
+  }
+
+  .attitude .content8 {
+    top: 55%;
+    right: -10vw;
+  }
 }
