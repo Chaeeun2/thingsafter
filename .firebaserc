@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "thingsafter"
+  },
+  "targets": {
+    "thingsafter-web": {
+      "hosting": {
+        "thingsafter": [
+          "thingsafter"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

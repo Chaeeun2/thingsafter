@@ -29,11 +29,43 @@ let attitudeContent = [
   "우리는 인정한 다음 반박한다. ",
 ];
 
+let ruleImg = [
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/1.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/2.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/3.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/4.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/5.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/6.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/7.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/8.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/9.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/10.GIF"
+];
+
+let attitudeImg = [
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/11.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/12.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/13.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/4.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/5.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/6.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/7.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/8.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/9.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/10.GIF"
+];
+
 // 중복 없는 순환을 위한 변수들
 let ruleIndexes = [];
 let attitudeIndexes = [];
 let currentRuleIndex = 0;
 let currentAttitudeIndex = 0;
+
+// 이미지 중복 없는 순환을 위한 변수들
+let ruleImgIndexes = [];
+let attitudeImgIndexes = [];
+let currentRuleImgIndex = 0;
+let currentAttitudeImgIndex = 0;
 
 // 배열을 섞는 함수 (Fisher-Yates shuffle)
 function shuffleArray(array) {
@@ -52,6 +84,13 @@ function initializeIndexes() {
   attitudeIndexes = shuffleArray(indexes);
   currentRuleIndex = 0;
   currentAttitudeIndex = 0;
+  
+  // 이미지 인덱스도 초기화
+  const imgIndexes = Array.from({length: ruleImg.length}, (_, i) => i);
+  ruleImgIndexes = shuffleArray(imgIndexes);
+  attitudeImgIndexes = shuffleArray(imgIndexes);
+  currentRuleImgIndex = 0;
+  currentAttitudeImgIndex = 0;
 }
 
 // 다음 인덱스를 가져오는 함수
@@ -77,8 +116,43 @@ function getNextAttitudeIndex() {
   return selectedIndex;
 }
 
+// 이미지 인덱스를 가져오는 함수들
+function getNextRuleImgIndex() {
+  if (currentRuleImgIndex >= ruleImgIndexes.length) {
+    // 한 바퀴 다 돌았으면 다시 섞고 처음부터
+    const indexes = Array.from({length: ruleImg.length}, (_, i) => i);
+    ruleImgIndexes = shuffleArray(indexes);
+    currentRuleImgIndex = 0;
+  }
+  const selectedIndex = ruleImgIndexes[currentRuleImgIndex++];
+  return selectedIndex;
+}
+
+function getNextAttitudeImgIndex() {
+  if (currentAttitudeImgIndex >= attitudeImgIndexes.length) {
+    // 한 바퀴 다 돌았으면 다시 섞고 처음부터
+    const indexes = Array.from({length: attitudeImg.length}, (_, i) => i);
+    attitudeImgIndexes = shuffleArray(indexes);
+    currentAttitudeImgIndex = 0;
+  }
+  const selectedIndex = attitudeImgIndexes[currentAttitudeImgIndex++];
+  return selectedIndex;
+}
+
 // 페이지 로드 시 초기화
 initializeIndexes();
+
+// 이미지 미리 로드 함수
+function preloadImages() {
+  const allImages = [...ruleImg, ...attitudeImg];
+  allImages.forEach(src => {
+    const img = new Image();
+    img.src = src;
+  });
+}
+
+// 페이지 로드 시 이미지 미리 로드
+preloadImages();
 
 let rule = document.querySelector(".rule");
 let attitude = document.querySelector(".attitude");
@@ -169,7 +243,17 @@ function changeContent() {
   const attitudeIndex = getNextAttitudeIndex();
 
   rule.querySelector(".content").innerHTML = ruleContent[ruleIndex];
-    attitude.querySelector(".content").innerHTML = attitudeContent[attitudeIndex];
+  attitude.querySelector(".content").innerHTML = attitudeContent[attitudeIndex];
+  
+  // 이미지도 중복 없이 순환하도록 변경
+  const imgRule = document.querySelector(".img_rule img");
+  const imgAttitude = document.querySelector(".img_attitude img");
+  
+  const ruleImgIndex = getNextRuleImgIndex();
+  const attitudeImgIndex = getNextAttitudeImgIndex();
+  
+  imgRule.src = ruleImg[ruleImgIndex];
+  imgAttitude.src = attitudeImg[attitudeImgIndex];
     
     if (clickCount == 0) {
         clickCount++;
