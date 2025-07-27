@@ -46,13 +46,13 @@ let attitudeImg = [
   "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/11.GIF",
   "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/12.GIF",
   "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/13.GIF",
-  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/4.GIF",
-  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/5.GIF",
-  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/6.GIF",
-  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/7.GIF",
-  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/8.GIF",
-  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/9.GIF",
-  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/10.GIF"
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/14.GIF",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/15.gif",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/16.gif",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/17.gif",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/18.gif",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/19.gif",
+  "https://pub-e19974283ac04003851a7e9d6c623c5e.r2.dev/20.gif"
 ];
 
 // 중복 없는 순환을 위한 변수들
